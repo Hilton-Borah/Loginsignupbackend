@@ -268,8 +268,10 @@ userRotes.post("/verifyotp", async (req, res) => {
                     } else {
                         await userModel.updateOne({ _id: userID }, { verified: true })
                         await userOTPVerificationModel.deleteMany({ userID })
+                        const token = jwt.sign({ userID: userID }, 'hilton')
                         res.json({
                             status: "VERIFIED",
+                            token:token,
                             message: "User email verified successfully, Please Login"
                         })
                     }
