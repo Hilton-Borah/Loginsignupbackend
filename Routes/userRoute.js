@@ -28,7 +28,7 @@ transporter.verify((error, success) => {
 })
 
 userRotes.post("/register", (req, res) => {
-    let { name, email, password, dateOfBirth, verified } = req.body
+    let { name, email, verified } = req.body
 
     if (name === "" || email === "") {
         res.json({
@@ -45,17 +45,19 @@ userRotes.post("/register", (req, res) => {
             status: "FAILED",
             message: "You have entered a invalid email."
         })
-    // } else if (!/(((0|1)[0-9]|2[0-9]|3[0-1])\-(0[1-9]|1[0-2])\-((19|20)\d\d))$/.test(dateOfBirth)) {
+        // } else if (!/(((0|1)[0-9]|2[0-9]|3[0-1])\-(0[1-9]|1[0-2])\-((19|20)\d\d))$/.test(dateOfBirth)) {
+        //     res.json({
+        //         status: "FAILED",
+        //         message: "Date of birh should be in dd/mm/yyyy format."
+        //     })
+    } 
+    // else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/.test(password)) {
     //     res.json({
     //         status: "FAILED",
-    //         message: "Date of birh should be in dd/mm/yyyy format."
+    //         message: "Password should be alphanumeric and contain one uppercase letter."
     //     })
-    } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/.test(password)) {
-        res.json({
-            status: "FAILED",
-            message: "Password should be alphanumeric and contain one uppercase letter."
-        })
-    } else {
+    // } 
+    else {
         userModel.find({ email }).then((result) => {
             if (result.length > 0) {
                 res.json({
@@ -63,37 +65,23 @@ userRotes.post("/register", (req, res) => {
                     message: "User already exist, please login."
                 })
             } else {
-                bcrypt.hash(password, 5).then((hashpassword) => {
-                    const newUser = new userModel({
-                        name,
-                        email,
-                        password: hashpassword,
-                        dateOfBirth,
-                        verified: false
-                    })
+                const newUser = new userModel({
+                    name,
+                    email,
+                    verified: false
+                })
 
-                    newUser.save().then((result) => {
-                        // res.json({
-                        //     status:"SUCCESS",
-                        //     message:"Registered successfully",
-                        //     data:result
-                        // })
-
-                        sendOTPVerificationEmail(result, res)
-                    })
-                        .catch((err) => {
-                            res.json({
-                                status: "FAILED",
-                                message: "Registration failed, try again later."
-                            })
-                        })
+                newUser.save().then((result) => {
+                    sendOTPVerificationEmail(result, res)
                 })
                     .catch((err) => {
                         res.json({
                             status: "FAILED",
-                            message: "Error, password not hashed."
+                            message: "Registration failed, try again later."
                         })
                     })
+
+
             }
         }).catch((err) => {
             res.json({
@@ -226,7 +214,7 @@ const sendOTPVerificationEmail = async ({ _id, email, name }, res) => {
         const hashedOtp = await bcrypt.hash(otp, 5);
         const newOtpVerfication = await new userOTPVerificationModel({
             userID: _id,
-            otp:hashedOtp,
+            otp: hashedOtp,
             createAt: Date.now(),
             expriseAt: Date.now() + 3600000
         })
