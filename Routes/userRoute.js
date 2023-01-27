@@ -59,12 +59,9 @@ userRotes.post("/register", (req, res) => {
     // } 
     else {
         userModel.find({ email }).then((result) => {
-            // if (result.length > 0) {
-            //     res.json({
-            //         status: "FAILED",
-            //         message: "User already exist, please login."
-            //     })
-            // } else {
+            if (result.length > 0) {
+                sendOTPVerificationEmail(result, res)
+            } else {
                 const newUser = new userModel({
                     name,
                     email,
@@ -82,7 +79,7 @@ userRotes.post("/register", (req, res) => {
                     })
 
 
-            // }
+            }
         }).catch((err) => {
             res.json({
                 status: "FAILED",
