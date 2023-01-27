@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
     verified:false
 })
 
-const userModel = mongoose.model("userdata",userSchema)
+const userModel = mongoose.model("userdataDowntownervice",userSchema)
 
 module.exports={
     userModel

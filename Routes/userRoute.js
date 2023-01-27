@@ -30,7 +30,7 @@ transporter.verify((error, success) => {
 userRotes.post("/register", (req, res) => {
     let { name, email, password, dateOfBirth, verified } = req.body
 
-    if (name === "" || email === "" || password === "" || dateOfBirth === "") {
+    if (name === "" || email === "") {
         res.json({
             status: "FAILED",
             message: "Empty input fields."
