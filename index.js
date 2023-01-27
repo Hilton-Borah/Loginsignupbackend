@@ -5,10 +5,14 @@ const { userRotes } = require("./Routes/userRoute");
 const cors = require("cors");
 const app = express();
 
-app.use(cors({
-    origin:"*"
-}))
+// app.use(cors({
+//     origin:"*"
+// }))
+
+
+
 app.use(express.json());
+app.use(cors())
 app.use("/user",userRotes)
 
 
