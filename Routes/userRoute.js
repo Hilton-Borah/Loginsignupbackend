@@ -58,13 +58,16 @@ userRotes.post("/register", (req, res) => {
     //     })
     // } 
     else {
-        userModel.find({ email }).then((result) => {
-            if (result.length > 0) {
+        userModel.findOne({ email }).then((result) => {
+            // console.log(result)
+            if (result.length>0) {
+                console.log("Haiii")
                 sendOTPVerificationEmail({ _id, email, name }, res)
-                res.json({
-                    status: "FAILED",
-                    message: "User already exist, please login."
-                })
+                // return
+                // res.json({
+                //     status: "FAILED",
+                //     message: "User already exist, please login."
+                // })
             } 
             else {
                 const newUser = new userModel({
@@ -228,7 +231,7 @@ const sendOTPVerificationEmail = async ({ _id, email, name }, res) => {
             message: "Verification otp send on email.",
             data: {
                 userID: _id,
-                email
+                email,
             }
         })
     } catch (err) {
