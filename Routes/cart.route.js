@@ -16,11 +16,17 @@ CartRouter.get("/",async(req,res)=>{
 
 CartRouter.post("/add",async(req,res)=>{
     const payload=req.body;
-    console.log("payload",payload);
+    const posts=await CartModel.find({id:payload.id})
+    console.log(posts);
     try {
-        const new_post=new CartModel(payload);
-        await new_post.save();
-        res.send("Added in cart");
+        if (posts.length>0){
+            res.send("Item already in your cart")
+        } 
+        else {
+            const new_post=new CartModel(payload);
+            await new_post.save();
+            res.send("Added in cart");
+        }
     } catch (error) {
         console.log(error);
         res.send({"msg":"something went wrong"});
