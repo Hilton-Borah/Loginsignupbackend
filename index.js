@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require("express");
 const { userRotes } = require("./Routes/userRoute");
 const cors = require("cors");
+const { CartRouter } = require("./Routes/cart.route");
 const app = express();
 
 // app.use(cors({

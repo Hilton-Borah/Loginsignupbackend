@@ -4,10 +4,10 @@ const { CartModel } = require("../model/cart.model");
 const CartRouter=express.Router();
 
 CartRouter.get("/",async(req,res)=>{
-    const payload=req.body;
-    const userID_in_req=req.body.userID;
+    // const payload=req.body;
+    // const userID_in_req=req.body.userID;
     try {
-       const posts=await CartModel.find({"userID":userID_in_req})
+       const posts=await CartModel.find()
        res.send(posts); 
     } catch (error) {
         
