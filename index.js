@@ -13,7 +13,8 @@ const app = express();
 
 app.use(express.json());
 app.use(cors())
-app.use("/user",userRotes)
+app.use("/user",userRotes);
+app.use("/cart",CartRouter);
 
 
 app.listen(process.env.PORT,()=>{
