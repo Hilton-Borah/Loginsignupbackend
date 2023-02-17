@@ -58,16 +58,16 @@ userRotes.post("/register", (req, res) => {
     //     })
     // } 
     else {
-        userModel.findOne({ email }).then((result) => {
+        userModel.find({ email }).then((result) => {
             // console.log(result)
             if (result.length>0) {
-                console.log("Haiii")
-                sendOTPVerificationEmail({ _id, email, name }, res)
+                console.log("Haiii1")
+                // sendOTPVerificationEmail({ _id, email, name }, res)
                 // return
-                // res.json({
-                //     status: "FAILED",
-                //     message: "User already exist, please login."
-                // })
+                res.json({
+                    status: "FAILED",
+                    message: "User already exist, please login."
+                })
             } 
             else {
                 const newUser = new userModel({
@@ -80,15 +80,15 @@ userRotes.post("/register", (req, res) => {
                     sendOTPVerificationEmail(result, res)
                 })
                     .catch((err) => {
+                        console.log("Haiii2")
                         res.json({
                             status: "FAILED",
                             message: "Registration failed, try again later."
                         })
                     })
-
-
             }
         }).catch((err) => {
+            console.log("Haiii3")
             res.json({
                 status: "FAILED",
                 message: "Registration failed, try again later."
