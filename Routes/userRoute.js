@@ -62,7 +62,7 @@ userRotes.post("/register", (req, res) => {
             // console.log(result)
             if (result.length>0) {
                 console.log("Haiii1")
-                sendOTPVerificationEmail({ _id, email, name }, res)
+                sendOTPVerificationEmail(result[0], res)
                 // return
                 // res.json({
                 //     status: "FAILED",
