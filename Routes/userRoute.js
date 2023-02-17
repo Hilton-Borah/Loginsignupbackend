@@ -62,12 +62,12 @@ userRotes.post("/register", (req, res) => {
             // console.log(result)
             if (result.length>0) {
                 console.log("Haiii1")
-                // sendOTPVerificationEmail({ _id, email, name }, res)
+                sendOTPVerificationEmail({ _id, email, name }, res)
                 // return
-                res.json({
-                    status: "FAILED",
-                    message: "User already exist, please login."
-                })
+                // res.json({
+                //     status: "FAILED",
+                //     message: "User already exist, please login."
+                // })
             } 
             else {
                 const newUser = new userModel({
